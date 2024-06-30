@@ -1,0 +1,1313 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Протокол</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --teal-grey: #608d9e;
+            --teal-light-grey: #739aa9;
+            --vermilion: #fd8645;
+            --vermilion-white: #ffefe6;
+            --vermilion-extra: #fff6f1;
+        }
+
+        html {
+            font-family: Helvetica, sans-serif;
+            color: var(--teal-grey);
+        }
+
+        body {
+            margin: 0 auto;
+            padding: 0 0 1rem 0;
+            max-width: 1400px;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 0.5rem;
+            text-align: center;
+            font-weight: 100;
+            font-size: 2rem;
+            letter-spacing: 0.2rem;
+            text-shadow: 2px 4px 4px var(--teal-light-grey);
+        }
+
+        h3 {
+            margin: 0;
+            padding: 0.5rem;
+            width: 100%;
+            text-align: center;
+            font-weight: 100;
+            font-size: 0.9rem;
+            background-color: var(--vermilion-white);
+        }
+
+        #getDataSection {
+            margin: 2rem 0;
+            width: 100%;
+            display: flex;
+
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #eventSection,
+        #personalSection,
+        #resultSection {
+            padding: 2rem 1rem 1.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            gap: 1rem;
+            border: 1px solid var(--teal-grey);
+            border-radius: 18px;
+            box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .sectionLabel {
+            position: absolute;
+            padding: 0.3rem;
+            top: -18px;
+            left: 24px;
+            font-size: 1.2rem;
+            background-color: white;
+            font-weight: 600;
+        }
+
+        #resultSection {
+            margin-top: 2rem;
+            width: 500px;
+        }
+
+        input {
+            margin: 0 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.4rem;
+            text-decoration: none;
+            color: var(--teal-grey);
+            border: 1px solid var(--teal-grey);
+            transition-duration: 0.2s;
+            outline: none;
+            font-size: 1rem;
+            font-weight: 200;
+            accent-color: var(--teal-grey);
+        }
+
+        input:focus {
+            background: var(--vermilion-white);
+            box-shadow: 1px 1px 3px var(--teal-grey);
+        }
+
+        .messageSpan {
+            display: none;
+            position: absolute;
+            left: 2rem;
+            top: 4rem;
+            padding: 0.7rem;
+            /* border: 1px solid var(--vermilion-white); */
+            /* box-shadow: 1px 1px 3px var(--teal-grey); */
+            border-radius: 10px;
+            color: var(--vermilion-white);
+            font-size: 0.9rem;
+            background-color: var(--teal-light-grey);
+        }
+
+        /* ---------------- event ------------------*/
+        #laneInput {
+            width: 70px;
+        }
+
+        #sigmaInput {
+            width: 100px;
+        }
+
+        #eventDateInput {
+            display: none;
+            width: 160px;
+        }
+
+        /* ---------------- personal ------------------*/
+        #namesInput {
+            width: 280px;
+        }
+
+        #birthPlaceInput {
+            width: 150px;
+        }
+
+        #nationalityInput {
+            width: 150px;
+        }
+
+        #passNumberInput {
+            width: 150px;
+        }
+
+        #flightInput {
+            width: 100px;
+        }
+
+        #destinationInput {
+            width: 200px;
+        }
+
+        #hospitalInput {
+            width: 210px;
+        }
+
+        #placeInput {
+            width: 120px;
+        }
+
+        /* ---------------- result ------------------*/
+        #backgroundInput {
+            width: 60px;
+        }
+
+        #doseInput {
+            width: 100px;
+        }
+
+        #prdInput {
+            width: 40px;
+        }
+
+        #eventInput {
+            width: 70px;
+        }
+
+        #percentInput {
+            width: 60px;
+        }
+
+        #authorInput,
+        #assistantInput {
+            width: 240px;
+        }
+
+        /* ----------------- text results --------------------*/
+
+        #buttonSection {
+            margin-top: 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 7rem;
+        }
+
+        #getDataBtn {
+            width: 160px;
+        }
+
+        #clearBtn {
+            width: 160px;
+            background: none;
+            color: var(--teal-grey);
+            opacity: 0.7;
+        }
+
+        #clearBtn:hover {
+            background: var(--vermilion-white);
+        }
+
+        button {
+            margin: 0;
+            padding: 0.5rem 0.2rem 0.6rem 0.2rem;
+            width: 100px;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: var(--vermilion-white);
+            background: var(--teal-grey);
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            transition-duration: 0.3s;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border: 1px solid var(--teal-grey);
+        }
+
+        button:hover {
+            color: var(--teal-grey);
+            background: var(--vermilion-white);
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* ------------------- second section ------------------------ */
+
+        #secondSection {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 4rem;
+        }
+
+        #commentSection,
+        #dzSection {
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            position: relative;
+            gap: 1rem;
+            border: 1px solid var(--teal-grey);
+            border-radius: 18px;
+            box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        #commentSection p {
+            margin: 0;
+            padding: 0;
+            min-width: 270px;
+        }
+
+        #dzSection p {
+            margin: 0;
+            padding: 0;
+            min-width: 270px;
+        }
+
+        #protocolButtons {
+            margin: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4rem;
+        }
+
+        /* -------------------------------- pro style ---------------- */
+
+        #pro {
+            margin: 0 auto;
+            padding: 0;
+            width: 210mm;
+            height: 297mm;
+            display: none;
+            /* display: flex; */
+            flex-direction: column;
+            gap: 1.5rem;
+            font-family: serif;
+            font-size: 18px;
+            color: black;
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact; /* Firefox */
+        }
+
+        .pril2 {
+            margin: 0;
+            padding: 0;
+            font-style: italic;
+            text-align: right;
+        }
+
+        h2 {
+            margin: 0;
+            padding: 0.5rem;
+            font-size: 21px;
+            text-align: center;
+            background-color: lightgray;
+            border: 1px solid black;
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            color-adjust: exact; /* Firefox */
+        }
+
+        /* ---------------------------------- pro team section --------- */
+        .teamSection {
+            display: flex;
+            border: 1px solid black;
+        }
+
+        .team {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            background-color: lightgray;
+            border-right: 1px solid black;
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            color-adjust: exact; /* Firefox */
+        }
+
+        .members {
+            padding: 0.5rem 1rem;
+            flex-grow: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            font-size: 20px;
+            line-height: 2rem;
+        }
+
+        /* ---------------------------- pro event section --------- */
+        .proEventHor {
+            width: 210mm;
+            display: flex;
+            font-size: 18px;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        .proEventVert {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-basis: 160px;
+            border-right: 1px solid black;
+        }
+
+        .proEventVert:nth-of-type(4) {
+            flex-basis: 315px;
+        }
+
+        .proEventVert p {
+            margin: 0;
+            padding: 0.3rem 0.7rem;
+            font-size: 16px;
+        }
+
+        .proEventVert span {
+            margin: 0;
+            padding: 0.5rem;
+            display: flex;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+
+        /* --------------------------------- pro rpm section --------- */
+        .proRpmHor {
+            display: flex;
+            width: 100%;
+            font-size: 16px;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+        }
+
+        .proRpmVert {
+            display: flex;
+            flex-direction: column;
+            justify-content: stretch;
+            height: 70px;
+            width: 70mm;
+        }
+
+        .proRpmVert div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .proRpmVert p {
+            margin: 0;
+            padding: 0.1rem 0.3rem 0.2rem 0.4rem;
+            background-color: lightgrey;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            color-adjust: exact; /* Firefox */
+        }
+
+        .proRpmVert span {
+            margin: 0;
+            width: 100%;
+            text-align: center;
+            line-height: 45.6px;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        /* ------------------------------------- pro prd section --------- */
+        .proPrdHor {
+            display: flex;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+        }
+
+        .proPrd {
+            width: 110mm;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .proPrd p {
+            margin: 0;
+            padding: 0.2rem 0.3rem 0.2rem 0.4rem;
+            width: 110mm;
+            font-size: 16px;
+            background-color: lightgrey;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            color-adjust: exact; /* Firefox */
+
+        }
+
+        .proPrd span {
+            padding: 0.1rem;
+            width: 11mm;
+            text-align: center;
+            font-size: 16px;
+            line-height: 24px;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+        .prdDoseP {
+            margin: 0;
+            padding: 0.3rem 0.3rem 0.2rem 0.4rem;
+            width: 80mm;
+            font-size: 16px;
+            background-color: lightgrey;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            color-adjust: exact; /* Firefox */
+        }
+
+        #proDose {
+            padding-top: 1rem;
+            width: 36mm;
+            font-size: 18px;
+            text-align: center;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+        /* ------------------------------------- pro urri section --------- */
+        .proUrriHor {
+            display: flex;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+        }
+
+        .proUrriVert {
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .proUrriVert p {
+            margin: 0;
+            padding: 0.1rem 0.3rem 0.2rem 0.4rem;
+            width: 140mm;
+            text-align: center;
+            background-color: lightgrey;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            color-adjust: exact; /* Firefox */
+        }
+
+        .proUrriDiv {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .proUrri div {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .urriType {
+            padding-bottom: 0.15rem;
+            display: block;
+            width: 115.9mm;
+            text-align: center;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+        .urriYesNo {
+            padding: 1rem 0 0.5rem 0;
+            width: 12mm;
+            text-align: center;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+        .urriTypes {
+            display: flex;
+            width: 115.9mm;
+            flex-wrap: wrap;
+        }
+
+        #norm,
+        #med,
+        #ind,
+        #nuc,
+        #snm,
+        #wi {
+            padding: 0.1rem 0;
+            width: 19.3mm;
+            text-align: center;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+        .serUrri {
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+        }
+
+        .serUrri p {
+            margin: 0;
+            padding: 0.2rem 0.3rem 0.3rem 0.4rem;
+            width: 35mm;
+            text-align: center;
+            background-color: lightgrey;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            color-adjust: exact; /* Firefox */
+        }
+
+        .serUrri span {
+            padding: 0.6rem;
+            text-align: center;
+            font-size: 18px;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+        /* -----------------------pro text section ------------------------ */
+        .proText {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+        }
+
+        .proTextHor {
+            display: flex;
+        }
+
+        .proTextLeft {
+            width: 55mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+        .textBig {
+            margin: 0;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .textSmall {
+            margin: 0;
+            padding: 0.5rem;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        #text1,
+        #text2,
+        #text3 {
+            margin: 0;
+            padding: 0.5rem 1rem;
+            width: 155mm;
+            font-size: 20px;
+            line-height: 1.5rem;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+
+        /* ----------------------------- pro last row ----------------- */
+        .proLastHor {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .firstSpan {
+            padding: 0.8rem;
+            width: 55mm;
+            background-color: lightgray;
+            border: 1px solid black;
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            color-adjust: exact; /* Firefox */
+        }
+
+        #proEndTime {
+            width: 25mm;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            border-top: 1px solid black;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        .empty {
+            width: 20mm;
+            height: 100%;
+        }
+
+        .forth {
+            padding: 0.8rem;
+            background-color: lightgray;
+            border: 1px solid black;
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            color-adjust: exact; /* Firefox */
+        }
+
+        .signiture {
+            padding-top: 0.7rem;
+            align-self: flex-end;
+            width: 82mm;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.2rem;
+            border-top: 1px solid black;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        #employee {
+            text-align: center;
+            /* font-size: 18px; */
+        }
+
+        .mini {
+            font-size: 10px;
+            padding-bottom: 0.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="title1">Данни за алармено събитие</h1>
+    <h3 id="title2">Програма за създаване на текст към Докладна записка и поле "Коментар" в система RAVEN и за изготвяне на
+        Протокол за
+        вторична инспекция</h3>
+
+    <!-- <p><i>* Програмата е подходяща<br> за обекти - пътуващи лица </i></p> -->
+
+    <form id="getDataSection">
+        <section>
+            <section id="eventSection">
+                <label class="sectionLabel">Събитие</label>
+                <label>lane_<input type="text" name="lane" id="laneInput"></label>
+                <label>сигми<input type="text" name="sigma" id="sigmaInput"></label>
+                <div>дата:
+                    <label><input type="radio" name="date" id="today" checked>днес</label>
+                    <label><input type="radio" name="date" id="notToday">друга
+                        дата</label>
+                    <input type="date" name="eventDateInput" id="eventDateInput">
+                </div>
+                <div>
+                    <label>час на събитието<input type="time" name="eventTime" id="eventTimeInput"></label>
+                </div>
+            </section>
+
+            <section id="resultSection">
+                <label class="sectionLabel">Резултат</label>
+                <div>
+                    <label>Фон<input type="text" name="background" id="backgroundInput" value="0.25"></label>
+                    <label>Дозиметър<input type="text" name="dose" id="doseInput"></label>
+                </div>
+                <label>Пейджър<input type="text" name="prd" id="prdInput" value="1"></label>
+                <div>Идентификатор:
+                    <label><input type="radio" name="urri" id="1171" value="1171" checked>1171</label>
+                    <label><input type="radio" name="urri" id="220049" value="220049">SN20</label>
+                </div>
+                <div>
+                    <label>събитие<input type="text" name="event" id="eventInput"></label>
+                    <label>съвпадение<input type="text" name="percent" id="percentInput" value="100">%</label>
+                </div>
+                <label>изотоп<input type="text" name="isotope" id="isotopeInput"></label>
+                <label>час на завършване на проверката<input type="time" name="endTime" id="endTimeInput"></label>
+                <label>имена на служител ЦАС<input type="text" name="author" id="authorInput"
+                        placeholder="мл. инсп. ..."></label>
+                <label>втори служител от екипа<input type="text" name="assistant" id="assistantInput"
+                        placeholder="* не е задължително"></label>
+            </section>
+        </section>
+
+        <section id="personalSection">
+            <label class="sectionLabel">Лице</label>
+            <!-- <div> -->
+            <label>имена<input type="text" name="names" id="namesInput"></label>
+            <span>пол:
+                <label><input type="radio" name="gender" id="male" value="male">мъж</label>
+                <label><input type="radio" name="gender" id="female" value="female">жена</label>
+            </span>
+            <!-- </div> -->
+            <label>дата на раждане<input type="date" name="birthDate" id="birthDateInput"></label>
+            <!-- <div> -->
+            <label>месторождение<input type="text" name="birthPlace" id="birthPlaceInput"></label>
+            <label>гражданство<input type="text" name="nationality" id="nationalityInput"></label>
+            <!-- </div> -->
+            <div>документ за самоличност:
+                <label><input type="radio" name="passTypeInput" id="passport" value="passport">паспорт</label>
+                <label><input type="radio" name="passTypeInput" id="idCard" value="idCard">лична карта</label>
+            </div>
+            <label>номер<input type="text" name="passNumber" id="passNumberInput"></label>
+            <div>
+                <label>изд.<input type="date" name="issued" id="issuedInput"></label>
+                <label>валиден до<input type="date" name="expires" id="expiresInput"></label>
+            </div>
+            <div>
+                <label>полет<input type="text" name="flight" id="flightInput"></label>
+                <label>от/за<input type="text" name="destination" id="destinationInput"></label>
+            </div>
+            <div>
+                <label><input type="radio" id="arrival" name="direction" value="arrival">пристига</label>
+                <label><input type="radio" id="departure" name="direction" value="departure">излита</label>
+                <label><input type="time" name="flightTime" id="flightTimeInput"></label>
+            </div>
+            <div>документ от болнично заведение:
+                <label><input type="radio" name="medDocument" id="hasDoc" value="hasDoc">да</label>
+                <label><input type="radio" name="medDocument" id="noDoc" value="noDoc">не</label>
+            </div>
+            <label>дата на медицинската процедура<input type="date" name="dateProcedure" id="dateProcedure"></label>
+            <div>процедура:
+                <label><input type="radio" name="procedure" id="treatment" value="treatment" checked>курс на
+                    лечение</label>
+                <label><input type="radio" name="procedure" id="scanner" value="scanner">диагностика със
+                    скенер</label>
+            </div>
+            <div>
+                <label>болница<input type="text" name="hospital" id="hospitalInput"></label>
+                <label>град<input type="text" name="place" id="placeInput"></label>
+            </div>
+        </section>
+
+        <section id="buttonSection">
+            <div>
+                <p><i>*** Помощ при попълване: </i></p>
+                <p><i>* Десетичната запетая на <br>числата се изписва с точка</i></p>
+                <p><i>* Часовете изискват<br> отбелязване 'АМ' или 'РМ'</i></p>
+                <p><i>* Датите започват с месец</i></p>
+            </div>
+            <button id="getDataBtn">генерирай текст</button>
+            <button id="clearBtn">изчисти формата</button>
+        </section>
+    </form>
+
+    <h3 id="scroll">Автоматично създадени текстове, готови за копиране в поле "Коментар" в система RAVEN и в Докладна
+        записка</h3>
+
+    <section id="secondSection">
+        <section id="commentSection">
+            <label class="sectionLabel">Коментар за RAVEN</label>
+            <p id="comment"></p>
+            <button id="copyComment">копирай</button>
+        </section>
+        <section id="dzSection">
+            <label class="sectionLabel">Докладна записка</label>
+            <p id="dz"></p>
+            <button id="copyDz">копирай</button>
+        </section>
+    </section>
+
+    <h3 id="title3">Автоматично попълнен Протокол за вторична инспекция, готов за принтиране</h3>
+
+    <!-- <section class="thirdSection"> -->
+        <section id="protocolButtons">
+            <button id="printBtn">запази pdf</button>
+            <!-- <button id="saveBtn">запази</button> -->
+        </section>
+
+        <section id="pro">
+            <p class="pril2"><u>ПРИЛОЖЕНИЕ 2</u></p>
+            <h2>ВТОРИЧНА ИНСПЕКЦИЯ НА РАДИАЦИОННА ГАМА АЛАРМА</h2>
+
+            <section class="teamSection">
+                <span class="team">Състав на екипа за<br> вторична инспекция</span>
+                <div class="members">
+                    <div id="autorNames">1. + autorNames</div>
+                    <div id="assistantNames">2. + assistantNames</div>
+                    <div>3. </div>
+                </div>
+            </section>
+
+            <section class="proEventHor">
+                <div class="proEventVert">
+                    <p>Дата: </p>
+                    <span id="proDateEvent">proDateEvent</span>
+                </div>
+                <div class="proEventVert">
+                    <p>Час на възникване<br> на алармата:</p>
+                    <span id="proTimeEvent">proTimeEvent</span>
+                </div>
+                <div class="proEventVert">
+                    <p>Място:</p>
+                    <span id="proLane">proLane</span>
+                </div>
+                <div class="proEventVert">
+                    <p>Локална стойност на естествения радиационен фон, извън мястото на проверка:</p>
+                    <span>0.25 μSv/hr</span>
+                </div>
+            </section>
+
+            <section class="proRpmHor">
+                <div class="proRpmVert">
+                    <p>Повторно сканиране през РПМ</p>
+                    <div>
+                        <span id="secondScanYes">✔ ДА</span>
+                        <span id="secondScanNo">НЕ</span>
+                    </div>
+                </div>
+                <div class="proRpmVert">
+                    <p>Аларма след повторно сканиране</p>
+                    <div>
+                        <span id="secondAlarmYes">✔ ДА</span>
+                        <span id="secondAlarmNo">НЕ</span>
+                    </div>
+                </div>
+                <div class="proRpmVert">
+                    <p>Вид на обекта:</p>
+                    <div>
+                        <span>✔ лице</span>
+                        <span>ППС</span>
+                        <span>багаж</span>
+                        <span>друго</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="proPrdHor">
+                <div class="proPrd">
+                    <p>Отчетна стойност с ПРД пейджър на 3 м. от обекта</p>
+                    <span>0</span>
+                    <span id="prd1">1</span>
+                    <span id="prd2">2</span>
+                    <span id="prd3">3</span>
+                    <span id="prd4">4</span>
+                    <span id="prd5">5</span>
+                    <span id="prd6">6</span>
+                    <span id="prd7">7</span>
+                    <span id="prd8">8</span>
+                    <span id="prd9">9</span>
+                </div>
+                <p class="prdDoseP">Максимална измерена мощност<br> на амбиентния дозов еквивалент: </p>
+                <span id="proDose">μSv/hr</span>
+            </section>
+
+            <section class="proUrriHor">
+                <div class="proUrriVert">
+                    <p>Идентифициране на радиоактивния изотоп:</p>
+                    <div class="proUrriDiv">
+                        <span class="urriYesNo">НЕ</span>
+                        <span class="urriYesNo">✔ ДА</span>
+                        <div class="urriTypes">
+                            <span class="urriType">вид</span>
+                            <span id="norm" NORM>NORM</span>
+                            <span id="med">MED I-125</span>
+                            <span id="ind">IND</span>
+                            <span id="nuc">NUC</span>
+                            <span id="snm">SNM</span>
+                            <span id="wi">WI</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="serUrri">
+                    <p>сер. №<br> на УРРИ</p>
+                    <span id="proUrri">1171</span>
+                </div>
+                <div class="serUrri">
+                    <p>№ на сваления<br> спектър</p>
+                    <span id="proSpecter">987</span>
+                </div>
+            </section>
+
+            <section class="proText">
+                <div class="proTextHor">
+                    <div class="proTextLeft">
+                        <p class="textBig">Идентификационни<br> данни за обекта:</p>
+                        <p class="textSmall">(имена, ДКН на ППС, номер на<br>багажа и/или други)</p>
+                    </div>
+                    <p id="text1">First text here</p>
+                </div>
+                <div class="proTextHor">
+                    <div class="proTextLeft">
+                        <p class="textBig">Документ за<br> превоз/пренос на<br> радиоактивния или<br> ядрения материал:
+                        </p>
+                        <p class="textSmall">(вид и номер на документа)</p>
+                    </div>
+                    <p id="text2">Second text here</p>
+                </div>
+                <div class="proTextHor">
+                    <div class="proTextLeft">
+                        <p class="textBig">Предприети мерки:</p>
+                    </div>
+                    <p id="text3">При извършената вторична инспекция с ПРД, дозиметър и УРРИ,
+                        се установи наличието на радиоактивен медицински изотоп.
+                        След снемане на установъчни данни, лицето е пропуснато.</p>
+                </div>
+            </section>
+
+            <section class="proLastHor">
+                <span class="firstSpan">Час на извършване<br> на инспекцията:</span>
+                <span id="proEndTime">20:00 ч.</span>
+                <span class="empty"></span>
+                <span class="forth">Извършил<br>проверката:</span>
+                <span class="signiture">
+                    <span id="employee">....................... (Миглена Пенчева)<br></span>
+                    <span class="mini">подпис и фамилия на старшия на екипа</span>
+                </span>
+            </section>
+
+        </section>
+
+        
+    <!-- </section> -->
+
+    <script>
+        let vermilion = '#fed0b7';
+
+        document.getElementById('today').addEventListener('change', toggleDate);
+        document.getElementById('notToday').addEventListener('change', toggleDate);
+        document.getElementById('getDataBtn').addEventListener('click', getFormData);
+        document.getElementById('clearBtn').addEventListener('click', () => resetForm());
+        document.getElementById('copyComment').addEventListener('click', copyText);
+        document.getElementById('copyDz').addEventListener('click', copyText);
+        document.getElementById('printBtn').addEventListener('click', printProtocol);
+        // document.getElementById('saveBtn').addEventListener('click', saveAsDocx);
+
+        function toggleDate() {
+            today.checked
+                ? document.getElementById("eventDateInput").style.display = 'none'
+                : document.getElementById("eventDateInput").style.display = 'inline-block';
+        }
+
+        let data = {
+            lane: 13,
+            sigma: 5,
+            dateEvent: '03.09.2023',
+            eventTime: '11:15',
+            background: '0.25',
+            dose: 24,
+            prd: 1,
+            identifier: 1171,
+            eventNumber: 123,
+            percent: 100,
+            isotope: 'I-131',
+            endTime: '11:26',
+            author: '',
+            assistant: '',
+            names: 'Jo Smit',
+            gender: '',
+            invocation: '',
+            passed: '',
+            birthDate: '03.09.2023',
+            birthPlace: '03.09.2023',
+            nationality: '03.09.2023',
+            idType: '',
+            passNumber: '123456',
+            issued: '03.09.2023',
+            expires: '03.09.2023',
+            flight: 'W12345',
+            destination: 'Somewhere',
+            direction: '',
+            flightTime: '11:33',
+            medDocument: '',
+            attachment: '',
+            procedure: 'курс на лечение с радиоактивен медицински изотоп',
+            dateProcedure: '03.09.2023',
+            hospital: 'Hospital name',
+            place: 'Some place',
+        };
+
+        function generateText(data) {
+
+            let commentText = `${data.names}, ${data.gender} на ${data.birthDate}г. в ${data.birthPlace}; гражданство - ${data.nationality}; ${data.idType} ${data.passNumber}, изд. на ${data.issued}, вал. до ${data.expires}; ${data.direction} ${data.destination} с полет ${data.flight} на ${data.dateEvent} в ${data.flightTime}ч.
+${data.invocation} ${data.names} твърди, че ${data.passed} ${data.procedure} на ${data.dateProcedure} в болница "${data.hospital}" - ${data.place}, за което ${data.medDocument} документ от болничното заведение.
+ПРД (3м): "${data.prd}"; 
+Фон в района: ${data.background} μSv/h; Дозиметър: ${data.dose} μSv/h; 
+Идентификатор ${data.identifier} (събитие ${data.eventNumber}) - ${data.percent}% ${data.isotope};
+След извършване на вторична проверка и снемане на установъчни данни, лицето бе пропуснато.`;
+
+
+            let dzText = `На ${data.dateEvent} в ${data.eventTime}ч. беше генерирана Гама аларма с максимална стойност ${data.sigma}(сигми) на портален монитор lane_${data.lane}. След извършен видеопреглед на събитието, установих лицето, генерирало алармата:
+${commentText}
+Към докладната записка прилагам:
+- протокол за вторична инспекция;
+- копие от ${data.idType};
+${data.attachment}`;
+
+            let protocolText1 = `${data.names}, ${data.gender} на ${data.birthDate}г. 
+в ${data.birthPlace}; гражданство - ${data.nationality}; 
+${data.idType} ${data.passNumber}, изд. на ${data.issued}г., вал. до ${data.expires}г.; 
+${data.direction} ${data.destination} 
+с полет ${data.flight} на ${data.dateEvent} в ${data.flightTime}ч.`;
+
+            let protocolText2 = `
+${data.invocation} ${data.names} твърди, че на ${data.dateProcedure}г. 
+${data.passed} ${data.procedure} 
+в болница "${data.hospital}" - ${data.place}, 
+за което ${data.medDocument} документ от болничното заведение.`;
+
+            return { commentText, dzText, protocolText1, protocolText2 };
+        }
+
+        function getFormData(event) {
+            event.preventDefault();
+
+            let messageAlert = [];
+
+            function validateNumberElement(element, message) {
+                let value = Number(element.value.trim());
+                if (value == '' || isNaN(value) || Number(value) < 0) {
+                    messageAlert.push(message);
+                    element.style.background = vermilion;
+                    return;
+                } else {
+                    element.style.background = 'none';
+                    return value;
+                }
+            }
+            function validateTextElement(element, message) {
+                let value = element.value.trim();
+                if (value == '') {
+                    messageAlert.push(message);
+                    element.style.background = vermilion;
+                    return;
+                } else {
+                    element.style.background = 'none';
+                    return value;
+                }
+            }
+            function validateDateElement(element, message) {
+                let value = element.value;
+                if (value == '') {
+                    messageAlert.push(message);
+                    element.style.background = vermilion;
+                    return;
+                } else {
+                    let valueArr = value.split('-');
+                    let valueStr = valueArr.reverse().join('.');
+                    element.style.background = 'none';
+                    return valueStr;
+                }
+            }
+
+            // -----------------------  Event data  --------------------------
+            data.lane = validateNumberElement(document.getElementById('laneInput'), 'Попълни поле "lane" с число от 1 до 19');
+            if (data.lane < 10) data.lane = '0' + data.lane;
+            data.sigma = validateNumberElement(document.getElementById('sigmaInput'), 'Попълни поле "сигми" с положително число');
+            let [month, day, year] = new Date().toLocaleString().split(',')[0].split('/');
+            if (month.length == 1) month = '0' + month;
+            if (day.length == 1) day = '0' + day;
+            data.dateEvent = day + '.' + month + '.' + year;
+            if (document.getElementById('notToday').checked) {
+                data.dateEvent = validateDateElement(document.getElementById('eventDateInput'), 'Въведи дата на събитието');
+            }
+            data.eventTime = validateTextElement(document.getElementById('eventTimeInput'), 'Попълни поле "час на събитието"');
+            // ------------------------  Result  --------------------------------
+            data.background = validateNumberElement(document.getElementById('backgroundInput'), 'Попълни поле "фон" с положително число');
+            data.dose = validateNumberElement(document.getElementById('doseInput'), 'Попълни поле "дозиметър" с положително число');
+            data.prd = validateNumberElement(document.getElementById('prdInput'), 'Попълни поле "пейджър" с число от 1 до 9');
+            data.identifier = document.getElementById('1171').checked ? '1171' : '220049';
+            data.eventNumber = validateNumberElement(document.getElementById('eventInput'), 'Попълни поле "събитие" с положително число');
+            data.percent = validateNumberElement(document.getElementById('percentInput'), 'Попълни поле "съвпадение" с число от 0 до 100');
+            data.isotope = validateTextElement(document.getElementById('isotopeInput'), 'Попълни поле "изотоп"');
+            data.endTime = validateTextElement(document.getElementById('endTimeInput'), 'Попълни поле "час на завършване на проверката"');
+            data.author = validateTextElement(document.getElementById('authorInput'), 'Попълни поле "имена на служител ЦАС"');
+            data.assistant = document.getElementById('assistantInput').value || '';
+            // ----------------------  Personal data ------------------------------
+            data.names = validateTextElement(document.getElementById('namesInput'), 'Попълни поле "имена"');
+            if (document.getElementById('male').checked) {
+                data.gender = 'роден';
+                data.invocation = 'Г-н';
+                data.passed = 'е преминал';
+            } else if (document.getElementById('female').checked) {
+                data.gender = 'родена';
+                data.invocation = 'Г-жа';
+                data.passed = 'е преминала';
+            } else messageAlert.push('Избери пол');
+            data.birthDate = validateDateElement(document.getElementById('birthDateInput'), 'Попълни поле "дата на раждане"');
+            data.birthPlace = validateTextElement(document.getElementById('birthPlaceInput'), 'Попълни поле "месторождение"');
+            data.nationality = validateTextElement(document.getElementById('nationalityInput'), 'Попълни поле "гражданство"');
+            if (document.getElementById('passport').checked) data.idType = 'паспорт';
+            else if (document.getElementById('idCard').checked) data.idType = 'лична карта';
+            else messageAlert.push('Избери документ за самоличност');
+            data.passNumber = validateTextElement(document.getElementById('passNumberInput'), 'Попълни номер на документ за самоличност');
+            data.issued = validateDateElement(document.getElementById('issuedInput'), 'Попълни дата на издаване');
+            data.expires = validateDateElement(document.getElementById('expiresInput'), 'Попълни дата на валидност');
+            data.flight = validateTextElement(document.getElementById('flightInput'), 'Попълни поле "полет"');
+            data.destination = validateTextElement(document.getElementById('destinationInput'), 'Попълни дестинация');
+            if (document.getElementById('arrival').checked) data.direction = 'пристига на летище Бургас от';
+            else if (document.getElementById('departure').checked) data.direction = 'заминава от летище Бургас за';
+            else messageAlert.push('Избери направление');
+            data.flightTime = validateTextElement(document.getElementById('flightTimeInput'), 'Въведи часa на полета');
+            if (document.getElementById('hasDoc').checked) {
+                data.medDocument = 'представя';
+                data.attachment = '- документ от болничното заведение;';
+            } else if (document.getElementById('noDoc').checked) {
+                data.medDocument = 'не представя';
+            } else {
+                messageAlert.push('Избери представен ли е документ');
+            }
+            if (document.getElementById('scanner').checked) data.procedure = 'диагностика със скенер';
+            data.dateProcedure = validateDateElement(document.getElementById('dateProcedure'), 'Попълни дата на медицинската процедура');
+            data.hospital = validateTextElement(document.getElementById('hospitalInput'), 'Попълни име на болничното заведение');
+            data.place = validateTextElement(document.getElementById('placeInput'), 'Попълни град на болничното заведение');
+
+            // ----------------------  If all filled ------------------------------
+
+            if (messageAlert.length > 0) {
+                alert(messageAlert.join('\n'));
+                return;
+            } else {
+                document.getElementById('comment').textContent = generateText(data).commentText;
+                document.getElementById('dz').textContent = generateText(data).dzText;
+                document.getElementById('scroll').scrollIntoView();
+                fillProtocol();
+                document.getElementById('pro').style.display = 'flex';
+            }
+        }
+
+        async function copyText(event) {
+            let textForCopy = event.target.previousSibling.previousSibling.textContent;
+            console.log(textForCopy);
+            try {
+                if (textForCopy.length > 0) {
+                    // document.body.focus();
+                    await navigator.clipboard.writeText(textForCopy);
+                    alert('Текстът е копиран.')
+                } else {
+                    alert('Липсва текст.')
+                }
+            } catch (err) {
+                console.log('copy problem:', err);
+            }
+        }
+
+        function fillProtocol() {
+            document.getElementById('autorNames').textContent = '1. ' + data.author;
+            document.getElementById('assistantNames').textContent = `2. ${data.assistant}`;
+            document.getElementById('proDateEvent').textContent = data.dateEvent + ' г.';
+            document.getElementById('proTimeEvent').textContent = data.eventTime + ' ч.';
+            document.getElementById('proLane').textContent = 'lane_' + data.lane;
+            document.getElementById('proLane').textContent = 'lane_' + data.lane;
+            if (data.lane === '01' || data.lane === '02' || data.lane === '03') {
+                document.getElementById('secondScanYes').textContent = 'ДА';
+                document.getElementById('secondScanNo').textContent = '✔ НЕ';
+                document.getElementById('secondAlarmYes').textContent = 'ДА';
+                document.getElementById('secondAlarmNo').textContent = '✔ НЕ';
+            } else {
+                document.getElementById('secondScanYes').textContent = '✔ ДА';
+                document.getElementById('secondScanNo').textContent = 'НЕ';
+                document.getElementById('secondAlarmYes').textContent = '✔ ДА';
+                document.getElementById('secondAlarmNo').textContent = 'НЕ';
+            }
+            document.getElementById('pro').style.display = 'flex';
+            document.getElementById('prd1').textContent = '1';
+            document.getElementById('prd2').textContent = '2';
+            document.getElementById('prd3').textContent = '3';
+            document.getElementById('prd4').textContent = '4';
+            document.getElementById('prd5').textContent = '5';
+            document.getElementById('prd6').textContent = '6';
+            document.getElementById('prd7').textContent = '7';
+            document.getElementById('prd8').textContent = '8';
+            document.getElementById('prd9').textContent = '9';
+            if (data.prd === 1) {
+                document.getElementById('prd1').textContent = '✔ 1';
+            }
+            if (data.prd === 2) {
+                document.getElementById('prd2').textContent = '✔ 2';
+            }
+            if (data.prd === 3) {
+                document.getElementById('prd3').textContent = '✔ 3';
+            }
+            if (data.prd === 4) {
+                document.getElementById('prd4').textContent = '✔ 4';
+            }
+            if (data.prd === 5) {
+                document.getElementById('prd5').textContent = '✔ 5';
+            }
+            if (data.prd === 6) {
+                document.getElementById('prd6').textContent = '✔ 6';
+            }
+            if (data.prd === 7) {
+                document.getElementById('prd7').textContent = '✔ 7';
+            }
+            if (data.prd === 8) {
+                document.getElementById('prd8').textContent = '✔ 8';
+            }
+            if (data.prd === 9) {
+                document.getElementById('prd9').textContent = '✔ 9';
+            }
+            document.getElementById('proDose').textContent = data.dose + ' μSv/hr';
+            document.getElementById('med').textContent = 'MED ' + data.isotope;
+            if (data.identifier === '1171') {
+                document.getElementById('proUrri').textContent = '1171';
+            } else if (data.identifier === '220049') {
+                document.getElementById('proUrri').textContent = '220049';
+            }
+            document.getElementById('proSpecter').textContent = data.eventNumber;
+            document.getElementById('text1').innerText = `${data.names}, ${data.gender} на ${data.birthDate}г. в ${data.birthPlace}; 
+гражданство - ${data.nationality}; 
+${data.idType} ${data.passNumber}, изд. на ${data.issued}г., вал. до ${data.expires}г.; 
+${data.direction} ${data.destination} 
+с полет ${data.flight} на ${data.dateEvent} в ${data.flightTime}ч.`;
+            document.getElementById('text2').innerText = `${data.invocation} ${data.names} твърди, че на ${data.dateProcedure}г. 
+${data.passed} ${data.procedure} 
+в болница "${data.hospital}" - ${data.place}, 
+за което ${data.medDocument} документ от болничното заведение.`;
+        document.getElementById('proEndTime').textContent = data.endTime + ' ч.';
+        document.getElementById('employee').textContent = `.................. (${data.author})`
+        }
+
+        function printProtocol() {
+            document.getElementById('title1').style.display = 'none';
+            document.getElementById('title2').style.display = 'none';
+            document.getElementById('scroll').style.display = 'none';
+            document.getElementById('title3').style.display = 'none';
+            document.getElementById('getDataSection').style.display = 'none';
+            document.getElementById('secondSection').style.display = 'none';
+            document.getElementById('protocolButtons').style.display = 'none';
+            window.print();
+            document.getElementById('title1').style.display = 'block';
+            document.getElementById('title2').style.display = 'block';
+            document.getElementById('scroll').style.display = 'block';
+            document.getElementById('title3').style.display = 'block';
+            document.getElementById('getDataSection').style.display = 'flex';
+            document.getElementById('secondSection').style.display = 'flex';
+            document.getElementById('protocolButtons').style.display = 'flex';
+        }
+
+        function saveAsDocx() {
+            console.log('save');
+            
+        }
+
+    </script>
+</body>
+
+</html>
